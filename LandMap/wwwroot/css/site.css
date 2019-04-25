@@ -98,9 +98,6 @@ th {
     font-weight: normal;
 }
 
-.header-text  span {
-    /*margin-left: 50px;*/
-}
 
 .table, #modalContent, #modalContent input, #modalContent select  {
     font-family: Tahoma,Arial,sans-serif;

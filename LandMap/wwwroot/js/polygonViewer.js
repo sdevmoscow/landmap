@@ -201,7 +201,6 @@ function getCenter(coordinates) {
     let [minX, maxX, minY, maxY] = [coordinates[0][0][0], coordinates[0][0][0], coordinates[0][0][1], coordinates[0][0][1]];
 
     coordinates[0].forEach(function (c) {
-        //console.log(c);
         if (c[0] < minX) minX = c[0];
         if (c[0] > maxX) maxX = c[0];
         if (c[1] < minY) minY = c[1];

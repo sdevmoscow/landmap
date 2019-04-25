@@ -32,7 +32,6 @@ namespace LandMap.Controllers
             //Debug.Assert(firstTime);
             firstTime = false;
 
-            //ViewData["Selected"] = new Models.Land();
             ViewData["PopupTitle"] = "Карточка земельного участка";
 
             ViewBag.LandRightTypes = _context.LandRightType.Select(t => new { t.Id, t.Name }).ToList();
@@ -74,10 +73,6 @@ namespace LandMap.Controllers
                     Id = l.Id,
                     Name = l.Name
                 }).ToArray();
-
-            //String.Join(",", landsList
-            //    .Where(l => !String.IsNullOrEmpty(l.Coordinates))
-            //    .Select(l => l.Coordinates).ToArray());
 
             landsList.Where(l => !String.IsNullOrEmpty(l.Coordinates)).ToList().ForEach(l =>
             {
@@ -127,8 +122,6 @@ namespace LandMap.Controllers
             {
                 return NotFound();
             }
-
-            //ViewData["Selected"] = new Models.Land();
 
             return PartialView("_EditorPartial", new Models.LandModel
             {
