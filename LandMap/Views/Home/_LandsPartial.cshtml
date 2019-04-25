@@ -1,0 +1,56 @@
+﻿@model LandMap.Models.LandModel
+
+<p class="header-text">
+    <a class="btn createbtn" onclick="drawPoly();"></a> 
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th >
+                @Html.DisplayNameFor(model => model.Selected.Id)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Selected.Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Selected.LandTypeName)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.Lands)
+        {
+            <tr onclick="setMap('@item.Center', @item.Id, '@item.Name', '@item.InventoryNumber', '@item.CadastralNumber', @item.LandTypeId, @item.LandRightTypeId)" class="link">
+                <td id="lands_row_@item.Id">
+                    @Html.DisplayFor(modelItem => item.Id)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.LandTypeName)
+                </td>
+                @*<td>
+                    <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                    <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                    <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                    </td>*@
+            </tr>
+        }
+    </tbody>
+    <tfoot>
+        <tr>
+            <td colspan="4">
+                <div class="header" style="padding: 3px 0 12px 0;">
+                    <div>
+                        <span>Макс. кол-во вершин:</span><input type="number" value="8" id="max_vertexes" style="color:#333;" />
+                        <label><input type="checkbox" id="hide_polygons" class="header-text" checked />Скрывать полигоны при создании нового</label>
+                    </div>
+                </div>
+            </td>
+        </tr>
+    </tfoot>
+</table>
+
+

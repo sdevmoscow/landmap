@@ -1,0 +1,201 @@
+﻿@model LandMap.Models.LandModel
+
+@{ 
+    string name = Model.Selected != null ? Model.Selected.Name : "";
+    string name1 = name;
+}
+
+<script type="text/javascript">
+    var saveLand = function (btn) {
+        if (btn.text == 'Изменить') {
+            btn.text = 'Сохранить';
+            $('#editor_name').removeAttr('readonly');
+            $('#editor_cadastralnumber').removeAttr('readonly');
+            $('#editor_inventorynumber').removeAttr('readonly');
+            $("select[id^='editor_']").removeAttr('readonly');
+            $("select[id^='editor_']").attr("disabled", false);
+        }
+        else {
+            var form = $('#editorForm');
+            var editorName = $('#editor_name').val();
+            $.ajax({
+                type: 'POST',
+                url: form.attr('action'),
+                data: form.serialize(),
+                error: function (xhr, status, error) {
+                    //$('#landModal').modal('hide');
+                    console.log(error);
+                },
+                success: function (response, p) {
+                    btn.text = 'Изменить';
+                    $('#landModal').modal('hide');
+                    $('#landsStore').load('@(Url.Action("Lands", "Home", null ))');
+
+                    var coords1 = $('#polyCoords').val();
+                    var arr_from_json = JSON.parse(coords1);
+                    var center = getAverageCenter(arr_from_json);
+
+                    var id_new = '';
+                    var ids = [];
+                    $('td[id^="lands_row_"]').each(function () {
+                        var id = $(this).attr('id').replace('lands_row_', '');
+                        ids.push(id);
+                    });
+
+                    setTimeout(function () {
+                        $('td[id^="lands_row_"]').each(function () {
+                            var id = $(this).attr('id').replace('lands_row_', '');
+                            if (!ids.includes(id)) {
+                                id_new = id;
+                                return;
+                            }
+                        });
+
+                        // Создаём макет содержимого.
+                        MyIconContentLayout = ymaps.templateLayoutFactory.createClass(
+                            '<div style="color: #0000FF; font-weight: bold;">$[properties.iconContent]</div>'
+                        );
+
+                        myPlacemarkWithContent = new ymaps.Placemark(center, {
+                            hintContent: editorName,
+                            balloonContent: editorName,
+                            iconContent: id_new
+                        }, {
+                                // Опции.
+                                // Необходимо указать данный тип макета.
+                                iconLayout: 'default#imageWithContent',
+                                // Своё изображение иконки метки.
+                                iconImageHref: 'images/ball.png',
+                                // Размеры метки.
+                                iconImageSize: [36, 36],
+                                // Смещение левого верхнего угла иконки относительно
+                                // её "ножки" (точки привязки).
+                                iconImageOffset: [-14, -14],
+                                // Смещение слоя с содержимым относительно слоя с картинкой.
+                                iconContentOffset: [11, 11],
+                                // Макет содержимого.
+                                iconContentLayout: MyIconContentLayout
+                            });
+
+                        myMap.geoObjects.add(myPlacemarkWithContent);
+
+
+                    }, 1500);
+
+                    //init();
+                }
+            });
+        }
+        return false;
+    }
+
+
+    function setMap(coordinates, id, name, cadastralnumber, inventorynumber, landtype_id, landrighttype_id, ) {
+    if (!!coordinates) {
+        var arr_from_json = JSON.parse(coordinates);
+        myMap.setCenter(arr_from_json);
+        $('#editor_id').val(id);
+        $('#editor_name').val(name);
+        $('#editor_cadastralnumber').val(cadastralnumber);
+        $('#editor_inventorynumber').val(inventorynumber);
+        $('#editor_landtype_id').val(landtype_id);
+        $('#editor_landrighttype_id').val(landrighttype_id);
+        $("input[id^='editor_']").attr('readonly', 'readonly');
+        $("select[id^='editor_']").attr('readonly', 'readonly');
+        $("select[id^='editor_']").attr("disabled", true);
+        $('#editorStore').load('@(Url.Action("Details", "Home", new { id = 3 } ))');
+        $('#landModal').modal('show');
+    }
+}
+
+
+
+</script>
+
+<h4 class="">@ViewData["PopupTitle"]</h4>
+<hr />
+<div class="row no-margin">
+    <div class="col-md-12" id="editorStore">
+        <form asp-action="_EditorPartial" id="editorForm">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="Selected.Coordinates" id="polyCoords" />
+            <div class="form-group">
+                <div class="row no-margin">
+                    <div class="col-md-4">
+                        <label asp-for="Selected.Name" class="control-label"></label>
+                    </div>
+                    <div class="col-md-8">
+                        <input asp-for="Selected.Name" class="form-control" id="editor_name" />
+                        <span asp-validation-for="Selected.Name" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="row no-margin">
+                    <div class="col-md-4">
+                        <label asp-for="Selected.InventoryNumber" class="control-label"></label>
+                    </div>
+                    <div class="col-md-8">
+                        <input asp-for="Selected.InventoryNumber" class="form-control" id="editor_inventorynumber" />
+                        <span asp-validation-for="Selected.InventoryNumber" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="row no-margin">
+                    <div class="col-md-4">
+                        <label asp-for="Selected.CadastralNumber" class="control-label" ></label>
+                    </div>
+                    <div class="col-md-8">
+                        <input asp-for="Selected.CadastralNumber" class="form-control" id="editor_cadastralnumber"/>
+                        <span asp-validation-for="Selected.CadastralNumber" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="row no-margin">
+                    <div class="col-md-4">
+                        <label asp-for="Selected.LandTypeId" class="control-label"></label>
+                    </div>
+                    <div class="col-md-8">
+                        <select asp-for="Selected.LandTypeId" class="form-control" id="editor_landtype_id" asp-items="@(new SelectList(ViewBag.LandTypes,"Id", "Name"))"></select>
+                        <span asp-validation-for="Selected.LandTypeId" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="row no-margin">
+                    <div class="col-md-4">
+                        <label asp-for="Selected.LandRightTypeId" class="control-label"></label>
+                    </div>
+                    <div class="col-md-8">
+                        <select asp-for="Selected.LandRightTypeId" class="form-control" id="editor_landrighttype_id" asp-items="@(new SelectList(ViewBag.LandRightTypes,"Id", "Name"))"></select>
+                        <span asp-validation-for="Selected.LandRightTypeId" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group" id="landId">
+                <div class="row no-margin">
+                    <div class="col-md-4">
+                        <label asp-for="Selected.Id" class="control-label"></label>
+                    </div>
+                    <div class="col-md-8">
+                        <input asp-for="Selected.Id" class="form-control"  id="editor_id" readonly />
+                        <span asp-validation-for="Selected.Id" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group" style="padding: 10px 0 0 15px;">
+                <a href="javascript:{}" onclick="saveLand(this)" class="button" id="submitbutton" disabled>Изменить</a>
+                <a href="javascript:{}" onclick="$('#landModal').modal('hide');" class="button">Отмена</a>
+                @*<input type="submit" value="Сохранить"/>*@
+            </div>
+        </form>
+    </div>
+</div>
+
+
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

@@ -1,0 +1,34 @@
+﻿@model LandMap.Models.LandModel
+
+@{
+    ViewData["Title"] = "Реестр земельных участков";
+}
+
+<div class="row">
+    <div class="col-md-7">
+        <div class="row">
+            <div class="col-md-12" id="map" style="height:600px"></div>
+        </div>
+
+        @*<button value="Load" onclick="ymaps.ready(init);">Обновить</button>*@
+    </div>
+    <div class="col-md-5" id="landsStore">
+        @await Html.PartialAsync("_LandsPartial", Model)
+    </div>
+</div>
+
+<div id='landModal' class='modal'>
+    <div class="modal-dialog">
+        <div class="modal-content pm-10">
+            <div id='modalContent'>
+                @await Html.PartialAsync("_EditorPartial", Model)
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script type="text/javascript">
+@Html.Raw(ViewData["script"])
+</script>
+

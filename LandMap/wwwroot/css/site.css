@@ -1,0 +1,172 @@
+﻿/* Please see documentation at https://docs.microsoft.com/aspnet/core/client-side/bundling-and-minification\ 
+for details on configuring this project to bundle and minify static web assets. */
+body {
+    padding-top: 50px;
+    padding-bottom: 20px;
+}
+
+/* Wrapping element */
+/* Set some basic padding to keep content from hitting the edges */
+.body-content {
+    padding: 15px;
+}
+
+/* Carousel */
+.carousel-caption p {
+    font-size: 20px;
+    line-height: 1.4;
+}
+
+/* Make .svg files in the carousel display properly in older browsers */
+.carousel-inner .item img[src$=".svg"] {
+    width: 100%;
+}
+
+.pm-10 {
+    padding: 10px !important;
+    margin: 10px !important;
+}
+
+.no-margin {
+    margin: 0 !important;
+}
+
+/* QR code generator */
+#qrCode {
+    margin: 15px;
+}
+
+.modal {
+    text-align: center;
+    padding: 0 !important;
+}
+
+.modal:before {
+    content: '';
+    display: inline-block;
+    height: 100%;
+    vertical-align: middle;
+    margin-right: -4px;
+}
+
+.modal-dialog {
+    display: inline-block;
+    text-align: left;
+    vertical-align: top;
+}
+
+tr.link:hover, tr.link td:hover {
+    cursor: pointer;
+}
+
+tr.link, tr.link td {
+    cursor: pointer;
+}
+
+
+.header div span,
+.header div input,
+.header div label {
+    font-family: Tahoma,Arial,sans-serif;
+    font-size: 8pt;
+    font-weight: normal;
+}
+
+.header div input[type=number] {
+    width: 40px;
+    margin: 3px 10px;
+    margin-top: 6px;
+}
+
+    .header div input[type=checkbox] {
+        width: 20px;
+        vertical-align:bottom;
+    }
+
+.header div {
+    height: 24px;
+}
+
+.header div label {
+    padding-top: 6px;
+}
+
+tfoot td,
+th {
+    background-color: #666;
+    color: #ddd;
+    font-weight: normal;
+}
+
+.header-text  span {
+    /*margin-left: 50px;*/
+}
+
+.table, #modalContent, #modalContent input, #modalContent select  {
+    font-family: Tahoma,Arial,sans-serif;
+    font-size: 8pt;
+    padding: 3px;
+    margin: 0;
+}
+
+.navbar-brand {
+    font-size: 16px;
+}
+
+.createbtn {
+    background-color: #333;
+    background: url(../images/create.png) no-repeat;
+    width: 82px;
+    height: 30px;
+    border-radius: 2px;
+}
+
+.table  thead tr th {
+    padding: 18px 10px;
+}
+
+    #modalContent h4 {
+        font-family: Tahoma,Arial,sans-serif;
+        font-size: 8pt;
+        font-weight: 600;
+        margin: 0;
+        margin-left: 20px;
+    }
+
+#modalContent hr {
+    margin-top: 10px;
+    margin-bottom: 15px;
+}
+
+#modalContent .form-group{
+    margin-bottom: 8px;
+} 
+
+#modalContent input, #modalContent select {
+    height: 22px;
+}
+
+.button {
+    border: solid 1px #bbb;
+    border-radius: 4px;
+    color: #333;
+    padding: 3px;
+    text-decoration: none;
+    background-color: #fff;
+    height: 22px;
+}
+
+.button:hover{
+    text-decoration: none;
+    color: #333;
+    background-color: #eee;
+} 
+
+
+/* Hide/rearrange for smaller screens */
+@media screen and (max-width: 767px) {
+    /* Hide captions */
+    .carousel-caption {
+        display: none;
+    }
+}
